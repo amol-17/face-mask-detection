@@ -8,7 +8,7 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
-from sklearn.preprocessing import LabeLBinarizer
+from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from tensorflow.keras.preprocessing.image import load_img
@@ -39,7 +39,7 @@ for category in CATEGORIES:
     	data.append(image)
     	labels.append(category)
 
-LB = LabeLBinarizer()
+LB = LabelBinarizer()
 labels = LB.fit_transform(labels)
 labels = to_categorical(labels)
 labels = np.array(labels)
@@ -67,10 +67,10 @@ for l in base_model.layers:
 	l.trainable = False
 # optimisation
 output = Adam(lr=learn_rate, decay=learn_rate / epoch)
-model.compile(loss="binary_crossentropy", outputimizer=output, metrics=["accuracy"])
+model.compile(loss="binary_crossentropy", optimizer =output, metrics=["accuracy"])
 # training
 H = model.fit(Aug_.flow(trainX, trainY, batch_size=batch_size), steps_per_epoch=len(trainX) // batch_size, 
-		validation_data=(testX, testY), validation_steps=len(testX) // batch_size, epoch=epoch)
+		validation_data=(testX, testY), validation_steps=len(testX) // batch_size, epochs=epoch)
 # testing/prediction
 pred_indexs = model.predict(testX, batch_size=batch_size)
 
